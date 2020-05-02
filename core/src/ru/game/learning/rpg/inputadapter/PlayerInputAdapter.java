@@ -59,7 +59,6 @@ public class PlayerInputAdapter extends InputAdapter {
     @Override
     public boolean keyUp(int keyCode) {
         if (Input.Keys.LEFT == keyCode) {
-//            player.stopDodge();
         }
         return super.keyDown(keyCode);
     }
