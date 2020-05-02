@@ -52,9 +52,7 @@ public class PlayerInputAdapter extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.getRectangle().x += FIELD_SCALE;
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) player.getRectangle().y += FIELD_SCALE;
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.getRectangle().y -= FIELD_SCALE;
-//        if (Input.Keys.RIGHT == keyCode) {
-//            player.setTextureRegionBounds1(player.getTextureRegionBounds1() -);
-////        }
+
         return super.keyDown(keyCode);
     }
 
