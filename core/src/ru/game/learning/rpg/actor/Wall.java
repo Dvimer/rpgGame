@@ -4,16 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Wall extends Actor {
+public class Wall extends GameActor {
     private final TextureRegion textureRegion;
-    private Rectangle rectangle;
 
-    public Wall(float x, float y, float width, float height) {
-        textureRegion = new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg")));
-        rectangle = new Rectangle(x, y, width, height);
+    public Wall(int x, int y) {
+        super(x,y,ActorType.WALL);
+        textureRegion = new TextureRegion(new Texture(Gdx.files.internal("wallRow.png")));
     }
 
     @Override
@@ -22,13 +19,4 @@ public class Wall extends Actor {
         batch.draw(textureRegion, rectangle.x, rectangle.y, rectangle.width,
                 rectangle.height);
     }
-
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
-
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
-    }
-
 }

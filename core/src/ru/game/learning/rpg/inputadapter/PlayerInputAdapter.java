@@ -6,7 +6,8 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import ru.game.learning.rpg.actor.Player;
 
-import static ru.game.learning.rpg.stage.GameStage.FIELD_SCALE;
+import static ru.game.learning.rpg.actor.GameActor.FIELD_SCALE;
+
 
 public class PlayerInputAdapter extends InputAdapter {
 

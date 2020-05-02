@@ -4,16 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Player extends Actor {
+public class Player extends GameActor {
     private final TextureRegion textureRegion;
-    private Rectangle rectangle;
 
-    public Player(float x, float y, float width, float height) {
+    public Player(int x, int y) {
+        super(x,y,ActorType.PLAYER);
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("droplet.png")));
-        rectangle = new Rectangle(x, y, width, height);
     }
 
     @Override
@@ -21,13 +18,5 @@ public class Player extends Actor {
         super.draw(batch, parentAlpha);
         batch.draw(textureRegion, rectangle.x, rectangle.y, rectangle.width,
                 rectangle.height);
-    }
-
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
-
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
     }
 }
