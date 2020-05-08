@@ -38,7 +38,7 @@ public class Player extends GameActor {
     private void wallOnCells() {
         int tempX = (int) (position.x + direction.x);
         int tempY = (int) (position.y + direction.y);
-        if (fieldMap.getData()[tempX][tempY] == 0) {
+        if (fieldMap.getData()[tempX][tempY].equals(" ")) {
             if (direction.x != 0.0f || direction.y != 0.0f) {
                 position.add(direction.x, direction.y);
                 direction.x = 0;

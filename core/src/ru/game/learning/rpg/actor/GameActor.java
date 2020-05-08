@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import static ru.game.learning.rpg.map.FieldMap.CELL_SIZE;
+
 public class GameActor extends Actor {
     protected Vector2 position;
     protected Vector2 direction;
-    public final static int FIELD_SIZE = 80;
+    public final static int FIELD_SIZE = CELL_SIZE;
 
     public void checkScreenBounds() {
         if (position.x > Gdx.graphics.getWidth() - FIELD_SIZE) {
