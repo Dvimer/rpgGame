@@ -6,14 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.game.learning.arcade.utils.Constants;
 
 public class Ground extends Actor {
     private final TextureRegion textureRegion;
     private Rectangle textureRegionBounds1;
 
     public Ground(float x, float y, float width, float height) {
-        textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Constants.GROUND_IMAGE_PATH)));
+        textureRegion = new TextureRegion(new Texture(Gdx.files.internal("ground.png")));
         textureRegionBounds1 = new Rectangle(x, y, width, height);
     }
 

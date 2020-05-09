@@ -11,6 +11,9 @@ public class GameActor extends Actor {
     protected Vector2 direction;
     public final static int FIELD_SIZE = CELL_SIZE;
 
+
+
+
     public void checkScreenBounds() {
         if (position.x > Gdx.graphics.getWidth() - FIELD_SIZE) {
             position.x = Gdx.graphics.getWidth() - FIELD_SIZE;
@@ -42,4 +45,6 @@ public class GameActor extends Actor {
         direction.x = x;
         direction.y = y;
     }
+
+
 }

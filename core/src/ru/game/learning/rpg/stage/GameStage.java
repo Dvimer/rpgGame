@@ -11,8 +11,6 @@ import ru.game.learning.rpg.actor.Player;
 import ru.game.learning.rpg.inputadapter.PlayerInputAdapter;
 import ru.game.learning.rpg.map.FieldMap;
 
-import static ru.game.learning.rpg.actor.GameActor.FIELD_SIZE;
-
 public class GameStage extends Stage {
 
     private Player player;
@@ -35,16 +33,22 @@ public class GameStage extends Stage {
     }
 
     private void setupPlayer() {
-        player = new Player(5, 5, fieldMap);
+        player = new Player(10, 5, fieldMap);
         addActor(player);
-        Gdx.input.setInputProcessor(new PlayerInputAdapter(player, this));
+        Gdx.input.setInputProcessor(new PlayerInputAdapter(player));
     }
 
     private void setupEnemy() {
-        enemy = new Enemy(MathUtils.random(1, 8) * FIELD_SIZE, MathUtils.random(1, 8) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
-        addActor(enemy);
+        for (int i = 0; i < 10; i++) {
+        int tempX = MathUtils.random(3, 8);
+        int tempY = MathUtils.random(3, 8);
+        if (fieldMap.getData()[tempX][tempY].equals(" ")) {
+                enemy = new Enemy(tempX, tempY, fieldMap);
+                addActor(enemy);
+            }else
+                i--;
+        }
     }
-
 
     private void setupCamera() {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

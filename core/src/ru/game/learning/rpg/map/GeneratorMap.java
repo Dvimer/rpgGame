@@ -37,7 +37,6 @@ public class GeneratorMap {
         }
     }
 
-
     private static void printField() {
         for (int i = 0; i < WIGHT; i++) {
             for (int j = 0; j < HEIGHT; j++) {

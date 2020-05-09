@@ -3,6 +3,7 @@ package ru.game.learning.rpg.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import ru.game.learning.rpg.stage.GameStage;
 
 public class FieldMap extends Actor {
     public static final int CELL_SIZE = 80;
@@ -10,11 +11,14 @@ public class FieldMap extends Actor {
     private Texture textureGrass;
     private Texture textureWall;
     private String[][] data;
+    private String[][] placeEnemy;
+
 
     public FieldMap() {
         data = new GeneratorMap().generate();
-        textureGrass = new Texture("ground.png");
-        textureWall = new Texture("badlogic.jpg");
+        textureGrass = new Texture("floor.png");
+        textureWall = new Texture("wall.png");
+
     }
 
     @Override
@@ -25,11 +29,18 @@ public class FieldMap extends Actor {
                 if (data[i][j].equals("*")) {
                     batch.draw(textureWall, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
+
             }
         }
     }
 
+
+
     public String[][] getData() {
         return data;
+    }
+
+    public String[][] getPlaceEnemy() {
+        return placeEnemy;
     }
 }
