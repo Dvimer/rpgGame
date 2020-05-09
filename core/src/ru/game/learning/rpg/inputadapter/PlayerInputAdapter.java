@@ -22,15 +22,19 @@ public class PlayerInputAdapter extends InputAdapter {
     public boolean keyDown(int keyCode) {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             player.setDirection(1, 0);
+            camera.translate(80.0f, 0.0f, 0.0f);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             player.setDirection(-1, 0);
+            camera.translate(-80.0f, 0.0f, 0.0f);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             player.setDirection(0, 1);
+            camera.translate(0.0f, 80.0f, 0.0f);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             player.setDirection(0, -1);
+            camera.translate(0.0f, -80.0f, 0.0f);
         }
         return super.keyDown(keyCode);
     }

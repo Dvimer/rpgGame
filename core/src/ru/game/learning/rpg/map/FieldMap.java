@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class FieldMap extends Actor {
-    public static final int CELL_SIZE = 16;
+    public static final int CELL_SIZE = 80;
 
     private Texture textureGrass;
     private Texture textureWall;
