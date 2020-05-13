@@ -33,19 +33,20 @@ public class GameStage extends Stage {
     }
 
     private void setupPlayer() {
-        player = new Player(10, 5, fieldMap);
+        player = new Player(5, 5, fieldMap);
         addActor(player);
         Gdx.input.setInputProcessor(new PlayerInputAdapter(player));
+
     }
 
     private void setupEnemy() {
         for (int i = 0; i < 10; i++) {
-        int tempX = MathUtils.random(3, 8);
-        int tempY = MathUtils.random(3, 8);
-        if (fieldMap.getData()[tempX][tempY].equals(" ")) {
-                enemy = new Enemy(tempX, tempY, fieldMap);
+            int tempX = MathUtils.random(1, 10);
+            int tempY = MathUtils.random(1, 10);
+            if (fieldMap.getData()[tempX][tempY].equals(" ")) {
+                enemy = new Enemy(tempX, tempY, fieldMap, player);
                 addActor(enemy);
-            }else
+            } else
                 i--;
         }
     }
@@ -65,4 +66,6 @@ public class GameStage extends Stage {
     public void draw() {
         super.draw();
     }
+
+
 }
