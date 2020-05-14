@@ -51,9 +51,12 @@ public class Enemy extends GameActor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         checkScreenBounds();
+        batch.setColor(1,1,1,1);
+        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
         batch.setColor(1,0,0,1);
         batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,hp / hpMax * FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
         batch.setColor(1,1,1,1);
+
 //        paintEnemy(batch);
         batch.draw(texture, position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);

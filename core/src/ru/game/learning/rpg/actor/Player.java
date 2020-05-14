@@ -16,6 +16,7 @@ public class Player extends GameActor {
     private TextureRegion[] textureRight;
     private TextureRegion[] textureLeft;
     private Texture textureHp;
+    private Texture textureRIP;
     private Rectangle rectangle;
 
 //    private Vector2 temp;
@@ -23,6 +24,7 @@ public class Player extends GameActor {
     private float secondPerFrame;
     private float animationTimer;
     private float speed;
+    private boolean alive;
 
 
     public Player(float x, float y, FieldMap fieldMap) {
@@ -35,6 +37,7 @@ public class Player extends GameActor {
         textureRight = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[3];
         textureLeft = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[4];
         textureHp = new Texture("Hp.png");
+        textureRIP = new Texture("RIP.jpg");
         position = new Vector2(x, y);
         rectangle = new Rectangle(x, y, FIELD_SIZE, FIELD_SIZE);
         direction = new Vector2(0, 0);
@@ -47,11 +50,15 @@ public class Player extends GameActor {
         animationTimer += Gdx.graphics.getDeltaTime();
         super.draw(batch, parentAlpha);
         checkScreenBounds();
-        paintPlayer(batch);
+        if(hp > 0) {
+            paintPlayer(batch);
+        }else
+            batch.draw(textureRIP,position.x * FIELD_SIZE, position.y *FIELD_SIZE, 80, 80);
         wallOnCells();
     }
 
     public void paintPlayer(Batch batch) {
+        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
         batch.setColor(1,0,0,1);
         batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,hp / hpMax * FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
         batch.setColor(1,1,1,1);
