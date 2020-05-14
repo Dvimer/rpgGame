@@ -74,7 +74,7 @@ public class Enemy extends GameActor {
     }
 
     public void talkEnemy() {
-        direction.set(0, 0);
+        direction.set(0.0f, 0.0f);
         moveTimer -= Gdx.graphics.getDeltaTime();
         animationTimer += Gdx.graphics.getDeltaTime();
         float dst = player.getPosition().dst(this.position);
