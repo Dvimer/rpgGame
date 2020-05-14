@@ -15,7 +15,7 @@ public class FieldMap extends Actor {
 
 
     public FieldMap() {
-        data = new GeneratorMap().generate();
+        data = new SplitGenerator().generate();
         textureGrass = new Texture("floor.png");
         textureWall = new Texture("wall.png");
 
@@ -29,12 +29,9 @@ public class FieldMap extends Actor {
                 if (data[i][j].equals("*")) {
                     batch.draw(textureWall, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
-
             }
         }
     }
-
-
 
     public String[][] getData() {
         return data;
