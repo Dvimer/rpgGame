@@ -9,7 +9,7 @@ public class SplitGenerator implements MapGenerator {
     public static List<Node> list = new ArrayList<>();
     private static String[][] field;
     public static final int WIGHT = 80;
-    public static final int HEIGHT = 45;
+    public static final int HEIGHT = 80;
     private static int offset;
     public static final int DEEP = 5;
 

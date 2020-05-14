@@ -19,11 +19,10 @@ public class Enemy extends GameActor {
     private Rectangle rectangle;
     private Player player;
     private Weapon weapon;
-    private FieldMap fieldMap;
     private float secondPerFrame;
     private float activityZone;
     private float animationTimer;
-    private float moveTimer;
+    private float walkTimer;
     private float dt;
 
 
@@ -32,7 +31,7 @@ public class Enemy extends GameActor {
         this.player = player;
         this.hpMax = 50.0f;
         this.hp = hpMax;
-        this.weapon = new Weapon("Claws","near", 2,5,3.0f);
+        this.weapon = new Weapon("Claws", "near", 2, 5, 3.0f);
         texture = new Texture("Enemy80.png");
         textureUp = new TextureRegion(new Texture(Gdx.files.internal("deadman.png"))).split(100, 100)[0];
         textureRight = new TextureRegion(new Texture(Gdx.files.internal("deadman.png"))).split(100, 100)[1];
@@ -51,17 +50,17 @@ public class Enemy extends GameActor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         checkScreenBounds();
-        batch.setColor(1,1,1,1);
-        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1,0,0,1);
-        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,hp / hpMax * FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1,1,1,1);
+        batch.setColor(1, 1, 1, 1);
+        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
+        batch.setColor(1, 0, 0, 1);
+        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, hp / hpMax * FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
+        batch.setColor(1, 1, 1, 1);
 
 //        paintEnemy(batch);
         batch.draw(texture, position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
-                    FIELD_SIZE);
+                FIELD_SIZE);
         attack();
-        talkEnemy();
+        walkEnemy();
     }
 
 //    private void paintEnemy(Batch batch) {
@@ -88,43 +87,44 @@ public class Enemy extends GameActor {
 //        }
 //    }
 
-    public void talkEnemy() {
-        direction.set(0.0f, 0.0f);
-        moveTimer -= Gdx.graphics.getDeltaTime();
-        animationTimer += Gdx.graphics.getDeltaTime();
+    public void walkEnemy() {
+        changeDirection();
+        goWithMoveTimer();
+    }
+
+    private void changeDirection() {
         float dst = player.getPosition().dst(this.position);
+        walkTimer -= Gdx.graphics.getDeltaTime();
         if (dst < activityZone) {
-            if (moveTimer < 0.0f) {
-                moveTimer = MathUtils.random(1.0f, 4.0f);
-                direction.set(player.getPosition()).sub(this.position).nor();
-                if (MathUtils.randomBoolean(0.5f)) {
-                    direction.set(0, direction.y);
-                } else
-                    direction.set(direction.x, 0);
+            if (walkTimer < 0.0f) {
+                walkTimer = MathUtils.random(1.0f, 1.0f);
+                goToPlayer();
             }
-        } else if (moveTimer < 0.0f) {
-            moveTimer = MathUtils.random(1.0f, 1.0f);
-            if (MathUtils.randomBoolean(0.5f)) {
-                direction.set(MathUtils.random(-1.0f, 1.0f), 0);
-            } else {
-                direction.set(0, MathUtils.random(-1.0f, 1.0f));
-            }
+        } else if (walkTimer < 0.0f) {
+            walkTimer = MathUtils.random(1.0f, 1.0f);
+            goToRandomVector(MathUtils.random(-1.0f, 1.0f), 0, 0);
         }
         direction.nor();
-        int tempX = (int) (position.x + direction.x);
-        int tempY = (int) (position.y + direction.y);
-        if (fieldMap.getData()[tempX][tempY].equals(" ") &&
-                (player.getPosition().x != tempX || player.getPosition().y != tempY) ) {
-            position.x = position.x + direction.x;
-            position.y = position.y + direction.y;
+    }
+
+    private void goToRandomVector(float random, float i, float i2) {
+        if (MathUtils.randomBoolean(0.5f)) {
+            direction.set(random, i);
+        } else {
+            direction.set(i2, random);
         }
     }
 
-    public void attack(){
+    private void goToPlayer() {
+        direction.set(player.getPosition()).sub(this.position);
+        goToRandomVector(0, direction.y, direction.x);
+    }
+
+    public void attack() {
         float dst = player.getPosition().dst(this.position);
-        if (dst < weapon.getDistance()){
+        if (dst < weapon.getDistance()) {
             attackTimer += Gdx.graphics.getDeltaTime();
-            if(attackTimer >= weapon.getSpeedAttack()){
+            if (attackTimer >= weapon.getSpeedAttack()) {
                 player.takeDamage(weapon.getAttack());
                 attackTimer = 0.0f;
             }

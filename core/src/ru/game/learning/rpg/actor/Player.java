@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.game.learning.rpg.map.FieldMap;
 
 public class Player extends GameActor {
-//    private final TextureRegion[] textureRegion;
+    //    private final TextureRegion[] textureRegion;
     private TextureRegion[] textureStop;
     private TextureRegion[] textureDown;
     private TextureRegion[] textureUp;
@@ -19,8 +19,7 @@ public class Player extends GameActor {
     private Texture textureRIP;
     private Rectangle rectangle;
 
-//    private Vector2 temp;
-    private FieldMap fieldMap;
+    //    private Vector2 temp;
     private float secondPerFrame;
     private float animationTimer;
     private float speed;
@@ -31,11 +30,11 @@ public class Player extends GameActor {
         this.fieldMap = fieldMap;
         hpMax = 100.0f;
         hp = hpMax;
-        textureStop = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[0];
-        textureDown = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[1];
-        textureUp = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[2];
-        textureRight = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[3];
-        textureLeft = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[4];
+        textureStop = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100, 100)[0];
+        textureDown = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100, 100)[1];
+        textureUp = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100, 100)[2];
+        textureRight = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100, 100)[3];
+        textureLeft = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100, 100)[4];
         textureHp = new Texture("Hp.png");
         textureRIP = new Texture("RIP.jpg");
         position = new Vector2(x, y);
@@ -43,6 +42,7 @@ public class Player extends GameActor {
         direction = new Vector2(0, 0);
         secondPerFrame = 0.2f;
         speed = FIELD_SIZE;
+        moveTimer = 0.0f;
     }
 
     @Override
@@ -50,51 +50,36 @@ public class Player extends GameActor {
         animationTimer += Gdx.graphics.getDeltaTime();
         super.draw(batch, parentAlpha);
         checkScreenBounds();
-        if(hp > 0) {
-            paintPlayer(batch);
-        }else
-            batch.draw(textureRIP,position.x * FIELD_SIZE, position.y *FIELD_SIZE, 80, 80);
-        wallOnCells();
+        drawPlayer(batch);
+        goWithMoveTimer();
+        getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE, 0);
     }
 
-    public void paintPlayer(Batch batch) {
-        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1,0,0,1);
-        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,hp / hpMax * FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1,1,1,1);
+    public void drawPlayer(Batch batch) {
+        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
+        batch.setColor(1, 0, 0, 1);
+        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, hp / hpMax * FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
+        batch.setColor(1, 1, 1, 1);
         int frameIndex = (int) (animationTimer / secondPerFrame) % textureDown.length;
-        if(direction.x == 0 && direction.y == 0) {
+        if (direction.x == 0 && direction.y == 0) {
             batch.draw(textureStop[0], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);
         }
-        if(direction.y > 0) {
+        if (direction.y > 0) {
             batch.draw(textureUp[frameIndex], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);
         }
-        if(direction.y < 0) {
+        if (direction.y < 0) {
             batch.draw(textureDown[frameIndex], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);
         }
-        if(direction.x > 0) {
+        if (direction.x > 0) {
             batch.draw(textureRight[frameIndex], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);
         }
-        if(direction.x < 0) {
+        if (direction.x < 0) {
             batch.draw(textureLeft[frameIndex], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);
-        }
-    }
-
-    private void wallOnCells() {
-        int tempX = (int) (position.x + direction.x);
-        int tempY = (int) (position.y + direction.y);
-        if (fieldMap.getData()[tempX][tempY].equals(" ")) {
-            if (direction.x != 0.0f || direction.y != 0.0f) {
-                position.set(position).add(direction.x, direction.y);
-                getStage().getCamera().translate( direction.x * FIELD_SIZE,direction.y * FIELD_SIZE,0);
-                direction.x = 0;
-                direction.y = 0;
-            }
         }
     }
 
@@ -109,7 +94,6 @@ public class Player extends GameActor {
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
     }
-
 
 
 }

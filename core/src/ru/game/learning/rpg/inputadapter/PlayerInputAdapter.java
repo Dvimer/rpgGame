@@ -17,7 +17,7 @@ public class PlayerInputAdapter extends InputAdapter {
     @Override
     public boolean keyDown(int keyCode) {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player.setDirection(1, 0);
+            player.setDirection(1, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             player.setDirection(-1, 0);
