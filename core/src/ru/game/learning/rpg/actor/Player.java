@@ -15,6 +15,7 @@ public class Player extends GameActor {
     private TextureRegion[] textureUp;
     private TextureRegion[] textureRight;
     private TextureRegion[] textureLeft;
+    private Texture textureHp;
     private Rectangle rectangle;
 
 //    private Vector2 temp;
@@ -26,11 +27,14 @@ public class Player extends GameActor {
 
     public Player(float x, float y, FieldMap fieldMap) {
         this.fieldMap = fieldMap;
+        hpMax = 100.0f;
+        hp = hpMax;
         textureStop = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[0];
         textureDown = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[1];
         textureUp = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[2];
         textureRight = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[3];
         textureLeft = new TextureRegion(new Texture(Gdx.files.internal("Player_Go.png"))).split(100,100)[4];
+        textureHp = new Texture("Hp.png");
         position = new Vector2(x, y);
         rectangle = new Rectangle(x, y, FIELD_SIZE, FIELD_SIZE);
         direction = new Vector2(0, 0);
@@ -43,6 +47,14 @@ public class Player extends GameActor {
         animationTimer += Gdx.graphics.getDeltaTime();
         super.draw(batch, parentAlpha);
         checkScreenBounds();
+        paintPlayer(batch);
+        wallOnCells();
+    }
+
+    public void paintPlayer(Batch batch) {
+        batch.setColor(1,0,0,1);
+        batch.draw(textureHp,position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE,0,0,hp / hpMax * FIELD_SIZE,12,1,1,0,0,0, FIELD_SIZE, 20, false, false);
+        batch.setColor(1,1,1,1);
         int frameIndex = (int) (animationTimer / secondPerFrame) % textureDown.length;
         if(direction.x == 0 && direction.y == 0) {
             batch.draw(textureStop[0], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
@@ -64,7 +76,6 @@ public class Player extends GameActor {
             batch.draw(textureLeft[frameIndex], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                     FIELD_SIZE);
         }
-        wallOnCells();
     }
 
     private void wallOnCells() {
@@ -78,6 +89,10 @@ public class Player extends GameActor {
                 direction.y = 0;
             }
         }
+    }
+
+    public void takeDamage(float amount) {
+        hp -= amount;
     }
 
     public Rectangle getRectangle() {

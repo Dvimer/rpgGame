@@ -1,6 +1,7 @@
 package ru.game.learning.rpg.actor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -9,6 +10,9 @@ import static ru.game.learning.rpg.map.FieldMap.CELL_SIZE;
 public class GameActor extends Actor {
     protected Vector2 position;
     protected Vector2 direction;
+    protected float hp;
+    protected float hpMax;
+    protected float attackTimer;
     public final static int FIELD_SIZE = CELL_SIZE;
 
 
@@ -45,6 +49,11 @@ public class GameActor extends Actor {
         direction.x = x;
         direction.y = y;
     }
+    public void takeDamage(float amount) {
+        hp -= amount;
+    }
+
+
 
 
 }
