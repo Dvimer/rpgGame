@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.game.learning.rpg.map.FieldMap;
+import ru.game.learning.rpg.service.HpService;
 
 public class Player extends GameActor {
     //    private final TextureRegion[] textureRegion;
@@ -25,6 +26,7 @@ public class Player extends GameActor {
     private float speed;
     private boolean alive;
 
+    private HpService hpService;
 
     public Player(float x, float y, FieldMap fieldMap) {
         this.fieldMap = fieldMap;
@@ -43,6 +45,7 @@ public class Player extends GameActor {
         secondPerFrame = 0.2f;
         speed = FIELD_SIZE;
         moveTimer = 0.0f;
+        hpService = new HpService();
     }
 
     @Override
@@ -52,14 +55,11 @@ public class Player extends GameActor {
         checkScreenBounds();
         drawPlayer(batch);
         goWithMoveTimer();
-        getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE, 0);
+        getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 2 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 2, 0);
     }
 
     public void drawPlayer(Batch batch) {
-        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1, 0, 0, 1);
-        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, hp / hpMax * FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1, 1, 1, 1);
+        hpService.draw(batch, this);
         int frameIndex = (int) (animationTimer / secondPerFrame) % textureDown.length;
         if (direction.x == 0 && direction.y == 0) {
             batch.draw(textureStop[0], position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,

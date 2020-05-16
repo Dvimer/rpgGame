@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.game.learning.rpg.map.FieldMap;
+import ru.game.learning.rpg.service.HpService;
 
 public class Enemy extends GameActor {
     private TextureRegion[] textureUp;
@@ -15,7 +16,6 @@ public class Enemy extends GameActor {
     private TextureRegion[] textureLeft;
     private TextureRegion[] textureDown;
     private Texture texture;
-    private Texture textureHp;
     private Rectangle rectangle;
     private Player player;
     private Weapon weapon;
@@ -24,6 +24,7 @@ public class Enemy extends GameActor {
     private float animationTimer;
     private float walkTimer;
     private float dt;
+    private HpService hpService;
 
 
     public Enemy(float x, float y, FieldMap fieldMap, Player player) {
@@ -37,25 +38,20 @@ public class Enemy extends GameActor {
         textureRight = new TextureRegion(new Texture(Gdx.files.internal("deadman.png"))).split(100, 100)[1];
         textureLeft = new TextureRegion(new Texture(Gdx.files.internal("deadman.png"))).split(100, 100)[2];
         textureDown = new TextureRegion(new Texture(Gdx.files.internal("deadman.png"))).split(100, 100)[3];
-        textureHp = new Texture("hp.png");
         position = new Vector2(x, y);
         rectangle = new Rectangle(x, y, FIELD_SIZE, FIELD_SIZE);
         direction = new Vector2(0, 0);
         secondPerFrame = 0.3f;
         activityZone = 3.0f;
         dt = Gdx.graphics.getDeltaTime();
+        hpService = new HpService();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         checkScreenBounds();
-        batch.setColor(1, 1, 1, 1);
-        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1, 0, 0, 1);
-        batch.draw(textureHp, position.x * FIELD_SIZE, position.y * FIELD_SIZE + FIELD_SIZE, 0, 0, hp / hpMax * FIELD_SIZE, 12, 1, 1, 0, 0, 0, FIELD_SIZE, 20, false, false);
-        batch.setColor(1, 1, 1, 1);
-
+        hpService.draw(batch, this);
 //        paintEnemy(batch);
         batch.draw(texture, position.x * FIELD_SIZE, position.y * FIELD_SIZE, FIELD_SIZE,
                 FIELD_SIZE);

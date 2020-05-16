@@ -14,7 +14,7 @@ public class GameActor extends Actor {
     protected float hp;
     protected float hpMax;
     protected float attackTimer;
-    protected float moveTimer;
+    public float moveTimer;
     public final static int FIELD_SIZE = CELL_SIZE;
     protected FieldMap fieldMap;
 
@@ -39,7 +39,7 @@ public class GameActor extends Actor {
         int tempY = (int) (position.y + direction.y);
         if (fieldMap.getData()[tempX][tempY].equals(" ")) {
             if (direction.x != 0.0f || direction.y != 0.0f) {
-                if (moveTimer < 1.0f) {
+                if (moveTimer < .5f) {
                     moveTimer += Gdx.graphics.getDeltaTime();
                     position.set(position).add(direction.x * Gdx.graphics.getDeltaTime()*2, direction.y * Gdx.graphics.getDeltaTime()*2);
                 } else {
@@ -73,5 +73,11 @@ public class GameActor extends Actor {
         hp -= amount;
     }
 
+    public float getHp() {
+        return hp;
+    }
 
+    public float getHpMax() {
+        return hpMax;
+    }
 }
