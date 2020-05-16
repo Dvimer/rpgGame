@@ -8,7 +8,7 @@ import java.util.List;
 public class AddRoomGenerator implements MapGenerator {
 
     public static List<Node> list = new ArrayList<>();
-    private static String[][] field;
+    private static FiledType[][] field;
     public static final int WIGHT = 80;
     public static final int HEIGHT = 80;
     private static int offset;
@@ -19,10 +19,10 @@ public class AddRoomGenerator implements MapGenerator {
 
 
     @Override
-    public String[][] generate() {
+    public FiledType[][] generate() {
         maxRoom = 10;
         roomField = new Node[DEEP][DEEP];
-        field = new String[DEEP * roomSize][DEEP * roomSize];
+        field = new FiledType[DEEP * roomSize][DEEP * roomSize];
         initField(field.length, field[0].length);
         int firstX = 0;
         int firstY = 0;
@@ -45,7 +45,7 @@ public class AddRoomGenerator implements MapGenerator {
     private static void initField(int wight, int height) {
         for (int i = 0; i < wight; i++) {
             for (int j = 0; j < height; j++) {
-                field[i][j] = "*";
+                field[i][j] = FiledType.WALL;
             }
         }
     }
@@ -53,7 +53,7 @@ public class AddRoomGenerator implements MapGenerator {
     private static void drawRectangleOnField(Node node) {
         for (int i = node.x; i < node.x + node.wight; i++) {
             for (int j = node.y; j < node.y + node.height; j++) {
-                field[i][j] = " ";
+                field[i][j] = FiledType.GROUND;
             }
         }
     }

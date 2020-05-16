@@ -10,7 +10,7 @@ public class FieldMap extends Actor {
 
     private Texture textureGrass;
     private Texture textureWall;
-    private String[][] data;
+    private FiledType[][] data;
     private String[][] placeEnemy;
 
 
@@ -26,14 +26,14 @@ public class FieldMap extends Actor {
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[0].length; j++) {
                 batch.draw(textureGrass, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                if (data[i][j].equals("*")) {
+                if (FiledType.WALL == data[i][j]) {
                     batch.draw(textureWall, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
             }
         }
     }
 
-    public String[][] getData() {
+    public FiledType[][] getData() {
         return data;
     }
 

@@ -10,6 +10,7 @@ import ru.game.learning.rpg.actor.Enemy;
 import ru.game.learning.rpg.actor.Player;
 import ru.game.learning.rpg.inputadapter.PlayerInputAdapter;
 import ru.game.learning.rpg.map.FieldMap;
+import ru.game.learning.rpg.map.FiledType;
 
 public class GameStage extends Stage {
 
@@ -43,7 +44,7 @@ public class GameStage extends Stage {
         for (int i = 0; i < 10; i++) {
             int tempX = MathUtils.random(1, 10);
             int tempY = MathUtils.random(1, 10);
-            if (fieldMap.getData()[tempX][tempY].equals(" ")) {
+            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY]) {
                 enemy = new Enemy(tempX, tempY, fieldMap, player);
                 addActor(enemy);
             } else

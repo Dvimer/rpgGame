@@ -7,16 +7,16 @@ import java.util.List;
 
 public class SplitGenerator implements MapGenerator {
     public static List<Node> list = new ArrayList<>();
-    private static String[][] field;
+    private static FiledType[][] field;
     public static final int WIGHT = 80;
     public static final int HEIGHT = 80;
     private static int offset;
     public static final int DEEP = 5;
 
     @Override
-    public String[][] generate() {
+    public FiledType[][] generate() {
 
-        field = new String[WIGHT][HEIGHT];
+        field = new FiledType[WIGHT][HEIGHT];
         initField(WIGHT, HEIGHT);
 
         Node node = new Node(WIGHT, HEIGHT, DEEP);
@@ -50,7 +50,7 @@ public class SplitGenerator implements MapGenerator {
     private static void initField(int wight, int height) {
         for (int i = 0; i < wight; i++) {
             for (int j = 0; j < height; j++) {
-                field[i][j] = "*";
+                field[i][j] = FiledType.WALL;
             }
         }
     }
@@ -104,7 +104,7 @@ public class SplitGenerator implements MapGenerator {
     private static void drawRectangleOnField(Node node) {
         for (int i = node.x; i < node.x + node.wight; i++) {
             for (int j = node.y; j < node.y + node.height; j++) {
-                field[i][j] = " ";
+                field[i][j] = FiledType.GROUND;
             }
         }
     }

@@ -1,10 +1,10 @@
 package ru.game.learning.rpg.actor;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import ru.game.learning.rpg.map.FieldMap;
+import ru.game.learning.rpg.map.FiledType;
 
 import static ru.game.learning.rpg.map.FieldMap.CELL_SIZE;
 
@@ -37,19 +37,21 @@ public class GameActor extends Actor {
     protected void goWithMoveTimer() {
         int tempX = (int) (position.x + direction.x);
         int tempY = (int) (position.y + direction.y);
-        if (fieldMap.getData()[tempX][tempY].equals(" ")) {
+        if (FiledType.GROUND == fieldMap.getData()[tempX][tempY]) {
             if (direction.x != 0.0f || direction.y != 0.0f) {
                 if (moveTimer < .5f) {
                     moveTimer += Gdx.graphics.getDeltaTime();
-                    position.set(position).add(direction.x * Gdx.graphics.getDeltaTime()*2, direction.y * Gdx.graphics.getDeltaTime()*2);
+                    position.set(position).add(direction.x * Gdx.graphics.getDeltaTime() * 2, direction.y * Gdx.graphics.getDeltaTime() * 2);
                 } else {
                     moveTimer = 0.0f;
                     direction.x = 0;
                     direction.y = 0;
                 }
             }
-        } else
+        } else {
             direction.set(0, 0);
+            moveTimer = 0.0f;
+        }
     }
 
     public Vector2 getPosition() {
