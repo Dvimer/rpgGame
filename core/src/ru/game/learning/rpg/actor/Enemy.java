@@ -16,7 +16,6 @@ public class Enemy extends GameActor {
     private Weapon weapon;
     private float secondPerFrame;
     private float activityZone;
-    private float animationTimer;
     private float walkTimer;
     private float dt;
     private HpService hpService;
