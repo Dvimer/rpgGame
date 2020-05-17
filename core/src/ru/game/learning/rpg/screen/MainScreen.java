@@ -2,13 +2,13 @@ package ru.game.learning.rpg.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import ru.game.learning.rpg.stage.GameStage;
+import ru.game.learning.rpg.stage.MenuStage;
 
-public class GameScreen implements Screen {
-    private GameStage stage;
+public class MainScreen implements Screen {
+    private MenuStage stage;
 
-    public GameScreen(Game myGame) {
-        stage = new GameStage(myGame);
+    public MainScreen(Game myGame) {
+        stage = new MenuStage(myGame);
     }
 
 

@@ -1,5 +1,6 @@
 package ru.game.learning.rpg.stage;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
@@ -19,7 +20,7 @@ public class GameStage extends Stage {
     private OrthographicCamera camera;
     private FieldMap fieldMap;
 
-    public GameStage() {
+    public GameStage(Game game) {
         super(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
                 new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
         setupCamera();
