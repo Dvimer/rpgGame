@@ -17,6 +17,11 @@ public class GameActor extends Actor {
     public float moveTimer;
     public final static int FIELD_SIZE = CELL_SIZE;
     protected FieldMap fieldMap;
+    public boolean isMotion;
+    protected float moveField = 1.0f;
+    private int tempX;
+    private int tempY;
+    protected FiledType filedType;
 
 
     public void checkScreenBounds() {
@@ -35,23 +40,30 @@ public class GameActor extends Actor {
     }
 
     protected void goWithMoveTimer() {
-        int tempX = (int) (position.x + direction.x);
-        int tempY = (int) (position.y + direction.y);
-        if (FiledType.GROUND == fieldMap.getData()[tempX][tempY]) {
-            if (direction.x != 0.0f || direction.y != 0.0f) {
-                if (moveTimer < .5f) {
-                    moveTimer += Gdx.graphics.getDeltaTime();
-                    position.set(position).add(direction.x * Gdx.graphics.getDeltaTime() * 2, direction.y * Gdx.graphics.getDeltaTime() * 2);
-                } else {
-                    moveTimer = 0.0f;
-                    direction.x = 0;
-                    direction.y = 0;
-                }
+        if (direction.x != 0.0f && !isMotion || direction.y != 0.0f && !isMotion) {
+            tempX = (int) (position.x + direction.x);
+            tempY = (int) (position.y + direction.y);
+            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY]) {
+                isMotion = true;
+                fieldMap.getData()[tempX][tempY] = filedType;
+                fieldMap.getData()[(int) position.x][(int) position.y] = FiledType.GROUND;
             }
-        } else {
-            direction.set(0, 0);
-            moveTimer = 0.0f;
         }
+        if (isMotion) {
+            if (moveTimer < 1.0f) {
+                moveTimer += Gdx.graphics.getDeltaTime();
+                position.set(position).add(direction.x * Gdx.graphics.getDeltaTime() * 1, direction.y * Gdx.graphics.getDeltaTime() * 1);
+            } else {
+                position.set(tempX, tempY);
+                isMotion = false;
+                moveTimer = 0.0f;
+                direction.x = 0;
+                direction.y = 0;
+                moveField = 1.0f;
+            }
+
+        }
+
     }
 
     public Vector2 getPosition() {

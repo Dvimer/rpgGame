@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.game.learning.rpg.map.FieldMap;
+import ru.game.learning.rpg.map.FiledType;
 import ru.game.learning.rpg.service.EnemyWalkService;
 import ru.game.learning.rpg.service.HpService;
 import ru.game.learning.rpg.service.WalkService;
@@ -24,6 +25,8 @@ public class Enemy extends GameActor {
 
     public Enemy(float x, float y, FieldMap fieldMap, Player player) {
         this.fieldMap = fieldMap;
+        filedType = FiledType.ENEMY;
+        fieldMap.getData()[(int) x][(int) y] = filedType;
         this.player = player;
         this.hpMax = 50.0f;
         this.hp = hpMax;

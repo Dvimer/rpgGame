@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.game.learning.rpg.map.FieldMap;
+import ru.game.learning.rpg.map.FiledType;
 import ru.game.learning.rpg.service.HpService;
 import ru.game.learning.rpg.service.PlayerWalkService;
 import ru.game.learning.rpg.service.WalkService;
@@ -25,6 +26,8 @@ public class Player extends GameActor {
 
     public Player(float x, float y, FieldMap fieldMap) {
         this.fieldMap = fieldMap;
+        filedType = FiledType.PLAYER;
+        fieldMap.getData()[(int) x][(int) y] = filedType;
         hpMax = 100.0f;
         hp = hpMax;
         textureRIP = new Texture("RIP.jpg");
@@ -36,6 +39,7 @@ public class Player extends GameActor {
         moveTimer = 0.0f;
         hpService = new HpService();
         walkService = new PlayerWalkService();
+
     }
 
     @Override
@@ -46,7 +50,9 @@ public class Player extends GameActor {
         hpService.draw(batch, this);
         walkService.draw(batch, this);
         goWithMoveTimer();
-        getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 2 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 2, 0);
+        if (isMotion) {
+            getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 1 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 1, 0);
+        }
     }
 
 
