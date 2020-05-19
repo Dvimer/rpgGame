@@ -26,7 +26,7 @@ public class Enemy extends GameActor {
     public Enemy(float x, float y, FieldMap fieldMap, Player player) {
         this.fieldMap = fieldMap;
         filedType = FiledType.ENEMY;
-        fieldMap.getData()[(int) x][(int) y] = filedType;
+        fieldMap.getData()[(int) x][(int) y] = this;
         this.player = player;
         this.hpMax = 50.0f;
         this.hp = hpMax;
@@ -52,7 +52,7 @@ public class Enemy extends GameActor {
     }
 
     public void walkEnemy() {
-        changeDirection();
+//        changeDirection();
         goWithMoveTimer();
     }
 
@@ -61,7 +61,7 @@ public class Enemy extends GameActor {
         walkTimer -= Gdx.graphics.getDeltaTime();
         if (dst < activityZone) {
             if (walkTimer < 0.0f) {
-                walkTimer = MathUtils.random(1.0f, 1.0f);
+                walkTimer = MathUtils.random(1.0f, 3.0f);
                 goToPlayer();
             }
         } else if (walkTimer < 0.0f) {

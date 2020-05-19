@@ -19,8 +19,8 @@ public class GameActor extends Actor {
     protected FieldMap fieldMap;
     public boolean isMotion;
     protected float moveField = 1.0f;
-    private int tempX;
-    private int tempY;
+    protected int tempX;
+    protected int tempY;
     protected FiledType filedType;
 
 
@@ -43,10 +43,11 @@ public class GameActor extends Actor {
         if (direction.x != 0.0f && !isMotion || direction.y != 0.0f && !isMotion) {
             tempX = (int) (position.x + direction.x);
             tempY = (int) (position.y + direction.y);
-            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY]) {
+            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY].getFiledType()) {
                 isMotion = true;
-                fieldMap.getData()[tempX][tempY] = filedType;
-                fieldMap.getData()[(int) position.x][(int) position.y] = FiledType.GROUND;
+                GameActor temp = fieldMap.getData()[tempX][tempY];
+                fieldMap.getData()[tempX][tempY] = this;
+                fieldMap.getData()[(int) position.x][(int) position.y] = temp;
             }
         }
         if (isMotion) {
@@ -93,5 +94,14 @@ public class GameActor extends Actor {
 
     public float getHpMax() {
         return hpMax;
+    }
+
+    public FiledType getFiledType() {
+        return filedType;
+    }
+
+    public void action(){
+
+
     }
 }

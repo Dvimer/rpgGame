@@ -4,5 +4,6 @@ public enum FiledType {
     PLAYER,
     ENEMY,
     WALL,
-    GROUND
+    GROUND,
+    CHEST;
 }

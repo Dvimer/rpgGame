@@ -27,7 +27,7 @@ public class Player extends GameActor {
     public Player(float x, float y, FieldMap fieldMap) {
         this.fieldMap = fieldMap;
         filedType = FiledType.PLAYER;
-        fieldMap.getData()[(int) x][(int) y] = filedType;
+        fieldMap.getData()[(int) x][(int) y] = this;
         hpMax = 100.0f;
         hp = hpMax;
         textureRIP = new Texture("RIP.jpg");
@@ -50,8 +50,19 @@ public class Player extends GameActor {
         hpService.draw(batch, this);
         walkService.draw(batch, this);
         goWithMoveTimer();
+        checkChest();
         if (isMotion) {
             getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 1 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 1, 0);
+        }
+    }
+
+    private void checkChest() {
+        if (direction.x != 0.0f && !isMotion || direction.y != 0.0f && !isMotion) {
+            tempX = (int) (position.x + direction.x);
+            tempY = (int) (position.y + direction.y);
+            if (FiledType.CHEST == fieldMap.getData()[tempX][tempY].getFiledType()) {
+                fieldMap.getData()[tempX][tempY].action();
+            }
         }
     }
 

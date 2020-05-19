@@ -7,11 +7,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import ru.game.learning.rpg.actor.Chest;
 import ru.game.learning.rpg.actor.Enemy;
 import ru.game.learning.rpg.actor.Player;
 import ru.game.learning.rpg.inputadapter.PlayerInputAdapter;
 import ru.game.learning.rpg.map.FieldMap;
 import ru.game.learning.rpg.map.FiledType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameStage extends Stage {
 
@@ -19,6 +23,7 @@ public class GameStage extends Stage {
     private Enemy enemy;
     private OrthographicCamera camera;
     private FieldMap fieldMap;
+    private List<Chest> chests;
 
     public GameStage(Game game) {
         super(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
@@ -27,6 +32,15 @@ public class GameStage extends Stage {
         setupGround();
         setupPlayer();
         setupEnemy();
+        setupChest();
+    }
+
+    private void setupChest() {
+        Chest chest = new Chest(fieldMap);
+        chests = new ArrayList<>();
+        chests.add(chest);
+        addActor(chest);
+
     }
 
     private void setupGround() {
@@ -45,7 +59,7 @@ public class GameStage extends Stage {
         for (int i = 0; i < 10; i++) {
             int tempX = MathUtils.random(1, 10);
             int tempY = MathUtils.random(1, 10);
-            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY]) {
+            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY].getFiledType()) {
                 enemy = new Enemy(tempX, tempY, fieldMap, player);
                 addActor(enemy);
             } else

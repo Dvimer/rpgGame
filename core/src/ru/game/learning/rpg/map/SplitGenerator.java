@@ -1,22 +1,28 @@
 package ru.game.learning.rpg.map;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import ru.game.learning.rpg.actor.GameActor;
+import ru.game.learning.rpg.actor.Ground;
+import ru.game.learning.rpg.actor.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SplitGenerator implements MapGenerator {
     public static List<Node> list = new ArrayList<>();
-    private static FiledType[][] field;
+    private static GameActor[][] field;
     public static final int WIGHT = 80;
     public static final int HEIGHT = 80;
     private static int offset;
     public static final int DEEP = 5;
+    private Wall wall = new Wall();
+    private Ground ground = new Ground();
 
     @Override
-    public FiledType[][] generate() {
+    public GameActor[][] generate() {
 
-        field = new FiledType[WIGHT][HEIGHT];
+        field = new GameActor[WIGHT][HEIGHT];
         initField(WIGHT, HEIGHT);
 
         Node node = new Node(WIGHT, HEIGHT, DEEP);
@@ -27,7 +33,7 @@ public class SplitGenerator implements MapGenerator {
         return field;
     }
 
-    private static void setWayBetweenNode(Node node) {
+    private void setWayBetweenNode(Node node) {
         if (node.deep > 1) {
             setWayOnField(node);
             drawRectangleOnField(node.way);
@@ -38,7 +44,7 @@ public class SplitGenerator implements MapGenerator {
         }
     }
 
-    private static void printField() {
+    private void printField() {
         for (int i = 0; i < WIGHT; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 System.out.print(field[i][j] + " ");
@@ -47,15 +53,15 @@ public class SplitGenerator implements MapGenerator {
         }
     }
 
-    private static void initField(int wight, int height) {
+    private void initField(int wight, int height) {
         for (int i = 0; i < wight; i++) {
             for (int j = 0; j < height; j++) {
-                field[i][j] = FiledType.WALL;
+                field[i][j] = wall;
             }
         }
     }
 
-    public static void splitNode(Node node, int deep) {
+    public void splitNode(Node node, int deep) {
         int tempDeep = --deep;
 
         if (deep > 0) {
@@ -70,7 +76,7 @@ public class SplitGenerator implements MapGenerator {
         }
     }
 
-    private static void workWithNode(Node node, int deep, int tempDeep) {
+    private void workWithNode(Node node, int deep, int tempDeep) {
         if (deep == 1) {
             list.add(node);
 
@@ -81,7 +87,7 @@ public class SplitGenerator implements MapGenerator {
         splitNode(node, tempDeep);
     }
 
-    private static void setWayOnField(Node node) {
+    private void setWayOnField(Node node) {
         Node left = node.left;
         Node right = node.right;
 
@@ -101,15 +107,15 @@ public class SplitGenerator implements MapGenerator {
         }
     }
 
-    private static void drawRectangleOnField(Node node) {
+    private void drawRectangleOnField(Node node) {
         for (int i = node.x; i < node.x + node.wight; i++) {
             for (int j = node.y; j < node.y + node.height; j++) {
-                field[i][j] = FiledType.GROUND;
+                field[i][j] = ground;
             }
         }
     }
 
-    private static void rewriteCoordinateAndSize(Node node) {
+    private void rewriteCoordinateAndSize(Node node) {
         offset = MathUtils.random(1, 3);
         node.x = node.x + offset;
         node.y = node.y + offset;
@@ -117,7 +123,7 @@ public class SplitGenerator implements MapGenerator {
         node.height = node.height - offset;
     }
 
-    private static void splitArea(Node node) {
+    private void splitArea(Node node) {
         if (node.wight < node.height) {
             splitHorizontal(node);
         } else {
@@ -125,14 +131,14 @@ public class SplitGenerator implements MapGenerator {
         }
     }
 
-    private static void splitVertical(Node node) {
+    private void splitVertical(Node node) {
         node.isHorisontal = false;
         int randomWeight = MathUtils.random((int) (node.wight / 100.f * 40), (int) (node.wight / 100.f * 60));
         node.left = new Node(node.x, node.y, randomWeight, node.height);
         node.right = new Node(node.x + randomWeight, node.y, node.wight - randomWeight, node.height);
     }
 
-    private static void splitHorizontal(Node node) {
+    private void splitHorizontal(Node node) {
         node.isHorisontal = true;
         int randomHeight = MathUtils.random((int) (node.height / 100.f * 40), (int) (node.height / 100.f * 60));
         node.left = new Node(node.x, node.y, node.wight, randomHeight);
