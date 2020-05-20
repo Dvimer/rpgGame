@@ -3,7 +3,12 @@ package ru.game.learning.rpg.inputadapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import ru.game.learning.rpg.actor.Bag;
 import ru.game.learning.rpg.actor.Player;
+
+import static ru.game.learning.rpg.actor.GameActor.FIELD_SIZE;
 
 public class PlayerInputAdapter extends InputAdapter {
 
@@ -28,6 +33,10 @@ public class PlayerInputAdapter extends InputAdapter {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
                 player.setDirection(0, -1);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.B)) {
+                player.getBag();
+                System.out.println(player.getBag());
             }
         }
         return super.keyDown(keyCode);

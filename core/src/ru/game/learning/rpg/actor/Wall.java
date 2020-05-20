@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import ru.game.learning.rpg.map.FiledType;
+import ru.game.learning.rpg.map.FieldType;
 
 public class Wall extends GameActor {
     private final TextureRegion textureRegion;
     private Rectangle rectangle;
-    private FiledType filedType = FiledType.WALL;
+    private FieldType fieldType = FieldType.WALL;
 
     public Wall() {
         position = new Vector2(MathUtils.random(0, 9) * FIELD_SIZE, MathUtils.random(0, 16) * FIELD_SIZE);
@@ -35,7 +35,7 @@ public class Wall extends GameActor {
         this.rectangle = rectangle;
     }
 
-    public FiledType getFiledType() {
-        return filedType;
+    public FieldType getFieldType() {
+        return fieldType;
     }
 }

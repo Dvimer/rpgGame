@@ -10,9 +10,10 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import ru.game.learning.rpg.actor.Chest;
 import ru.game.learning.rpg.actor.Enemy;
 import ru.game.learning.rpg.actor.Player;
+import ru.game.learning.rpg.actor.Tree;
 import ru.game.learning.rpg.inputadapter.PlayerInputAdapter;
 import ru.game.learning.rpg.map.FieldMap;
-import ru.game.learning.rpg.map.FiledType;
+import ru.game.learning.rpg.map.FieldType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,11 @@ public class GameStage extends Stage {
 
     private Player player;
     private Enemy enemy;
+    private List<Enemy> enemies;
     private OrthographicCamera camera;
     private FieldMap fieldMap;
     private List<Chest> chests;
+    private List<Tree> trees;
 
     public GameStage(Game game) {
         super(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
@@ -33,6 +36,7 @@ public class GameStage extends Stage {
         setupPlayer();
         setupEnemy();
         setupChest();
+        setupTree();
     }
 
     private void setupChest() {
@@ -40,7 +44,12 @@ public class GameStage extends Stage {
         chests = new ArrayList<>();
         chests.add(chest);
         addActor(chest);
-
+    }
+    private void setupTree() {
+        Tree tree = new Tree(fieldMap);
+        trees = new ArrayList<>();
+        trees.add(tree);
+        addActor(tree);
     }
 
     private void setupGround() {
@@ -56,15 +65,27 @@ public class GameStage extends Stage {
     }
 
     private void setupEnemy() {
-        for (int i = 0; i < 10; i++) {
-            int tempX = MathUtils.random(1, 10);
-            int tempY = MathUtils.random(1, 10);
-            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY].getFiledType()) {
-                enemy = new Enemy(tempX, tempY, fieldMap, player);
+        for (int i = 0; i < 100; i++) {
+            int tempX = MathUtils.random(1, 79);
+            int tempY = MathUtils.random(1, 44);
+            if(FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
+                Enemy enemy = new Enemy(tempX, tempY, fieldMap, player);
+                enemies = new ArrayList<>();
+                enemies.add(enemy);
                 addActor(enemy);
-            } else
-                i--;
+            }
         }
+
+//        for (int i = 0; i < 10; i++) {
+//            int tempX = MathUtils.random(1, 10);
+//            int tempY = MathUtils.random(1, 10);
+//            if (FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
+//                enemy = new Enemy(tempX, tempY, fieldMap, player);
+//                addActor(enemy);
+//            } else
+//                i--;
+//        }
+
     }
 
     private void setupCamera() {

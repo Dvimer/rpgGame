@@ -10,30 +10,30 @@ import ru.game.learning.rpg.map.FieldDrop;
 import ru.game.learning.rpg.map.FieldMap;
 import ru.game.learning.rpg.map.FieldType;
 
-public class Chest extends GameActor {
+
+public class Tree extends GameActor {
     private TextureRegion textureRegion;
-    private Rectangle textureRegionBounds1;
+    private Rectangle textureRegionBounds;
 
-
-    public Chest(FieldMap fieldMap) {
-        fieldDrop = FieldDrop.CHEST;
+    public Tree(FieldMap fieldMap) {
+        fieldDrop = FieldDrop.TREE;
         this.fieldMap = fieldMap;
         int tempX = MathUtils.random(5, 10);
         int tempY = MathUtils.random(5, 10);
         fieldMap.getData()[tempX][tempY] = this;
-        textureRegion = new TextureRegion(new Texture(Gdx.files.internal("chest.png")));
-        textureRegionBounds1 = new Rectangle(tempX, tempY, FIELD_SIZE, FIELD_SIZE);
+        textureRegion = new TextureRegion(new Texture(Gdx.files.internal("Tree.jpg")));
+        textureRegionBounds = new Rectangle(tempX, tempY, FIELD_SIZE, FIELD_SIZE);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(textureRegion, textureRegionBounds1.x * FIELD_SIZE, textureRegionBounds1.y * FIELD_SIZE, textureRegionBounds1.width, textureRegionBounds1.height);
+        batch.draw(textureRegion, textureRegionBounds.x * FIELD_SIZE, textureRegionBounds.y * FIELD_SIZE, textureRegionBounds.width, textureRegionBounds.height);
     }
 
     @Override
     public void action() {
-        fieldMap.getData()[(int) textureRegionBounds1.getX()][(int) textureRegionBounds1.getY()] = new Ground();
+        fieldMap.getData()[(int) textureRegionBounds.getX()][(int) textureRegionBounds.getY()] = new Ground();
         remove();
     }
 }

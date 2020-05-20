@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.game.learning.rpg.map.FieldMap;
-import ru.game.learning.rpg.map.FiledType;
+import ru.game.learning.rpg.map.FieldType;
 import ru.game.learning.rpg.service.EnemyWalkService;
 import ru.game.learning.rpg.service.HpService;
 import ru.game.learning.rpg.service.WalkService;
@@ -21,11 +21,12 @@ public class Enemy extends GameActor {
     private float dt;
     private HpService hpService;
     private WalkService walkService;
+    private boolean aLive;
 
 
     public Enemy(float x, float y, FieldMap fieldMap, Player player) {
         this.fieldMap = fieldMap;
-        filedType = FiledType.ENEMY;
+        fieldType = FieldType.ENEMY;
         fieldMap.getData()[(int) x][(int) y] = this;
         this.player = player;
         this.hpMax = 50.0f;
@@ -39,6 +40,7 @@ public class Enemy extends GameActor {
         dt = Gdx.graphics.getDeltaTime();
         hpService = new HpService();
         walkService = new EnemyWalkService();
+        aLive = true;
     }
 
     @Override
@@ -102,4 +104,10 @@ public class Enemy extends GameActor {
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
     }
+
+    public void takeDamage(float amount) {
+        hp -= amount;
+    }
+
+
 }

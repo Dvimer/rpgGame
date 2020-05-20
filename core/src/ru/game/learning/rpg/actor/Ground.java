@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.game.learning.rpg.map.FiledType;
+import ru.game.learning.rpg.map.FieldType;
 
 public class Ground extends GameActor {
     private final TextureRegion textureRegion;
     private Rectangle textureRegionBounds1;
-    private FiledType filedType = FiledType.GROUND;
+    private FieldType fieldType = FieldType.GROUND;
 
     public Ground() {
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("ground.png")));
@@ -24,7 +23,7 @@ public class Ground extends GameActor {
                 textureRegionBounds1.height);
     }
 
-    public FiledType getFiledType() {
-        return filedType;
+    public FieldType getFieldType() {
+        return fieldType;
     }
 }

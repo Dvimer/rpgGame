@@ -3,8 +3,9 @@ package ru.game.learning.rpg.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import ru.game.learning.rpg.map.FieldDrop;
 import ru.game.learning.rpg.map.FieldMap;
-import ru.game.learning.rpg.map.FiledType;
+import ru.game.learning.rpg.map.FieldType;
 
 import static ru.game.learning.rpg.map.FieldMap.CELL_SIZE;
 
@@ -21,7 +22,8 @@ public class GameActor extends Actor {
     protected float moveField = 1.0f;
     protected int tempX;
     protected int tempY;
-    protected FiledType filedType;
+    protected FieldType fieldType;
+    protected FieldDrop fieldDrop;
 
 
     public void checkScreenBounds() {
@@ -43,7 +45,7 @@ public class GameActor extends Actor {
         if (direction.x != 0.0f && !isMotion || direction.y != 0.0f && !isMotion) {
             tempX = (int) (position.x + direction.x);
             tempY = (int) (position.y + direction.y);
-            if (FiledType.GROUND == fieldMap.getData()[tempX][tempY].getFiledType()) {
+            if (FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
                 isMotion = true;
                 GameActor temp = fieldMap.getData()[tempX][tempY];
                 fieldMap.getData()[tempX][tempY] = this;
@@ -60,11 +62,8 @@ public class GameActor extends Actor {
                 moveTimer = 0.0f;
                 direction.x = 0;
                 direction.y = 0;
-                moveField = 1.0f;
             }
-
         }
-
     }
 
     public Vector2 getPosition() {
@@ -96,8 +95,8 @@ public class GameActor extends Actor {
         return hpMax;
     }
 
-    public FiledType getFiledType() {
-        return filedType;
+    public FieldType getFieldType() {
+        return fieldType;
     }
 
     public void action(){

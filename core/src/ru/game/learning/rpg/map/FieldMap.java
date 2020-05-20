@@ -27,14 +27,12 @@ public class FieldMap extends Actor {
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[0].length; j++) {
                 batch.draw(textureGrass, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                if (FiledType.WALL == data[i][j].getFiledType()) {
+                if (FieldType.WALL == data[i][j].getFieldType()) {
                     batch.draw(textureWall, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
-//                if (FiledType.CHEST == data[i][j]) {
-//                    batch.draw(textureChest, i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-//                }
             }
         }
+
     }
 
     public GameActor[][] getData() {
