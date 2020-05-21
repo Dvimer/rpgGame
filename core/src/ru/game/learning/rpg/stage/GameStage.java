@@ -79,6 +79,7 @@ public class GameStage extends Stage {
                 addActor(enemy);
             }
         }
+        fieldMap.setEnemies(enemies);
 
 //        for (int i = 0; i < 10; i++) {
 //            int tempX = MathUtils.random(1, 10);

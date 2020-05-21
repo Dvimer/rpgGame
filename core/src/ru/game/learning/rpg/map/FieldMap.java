@@ -3,7 +3,10 @@ package ru.game.learning.rpg.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import ru.game.learning.rpg.actor.Enemy;
 import ru.game.learning.rpg.actor.GameActor;
+
+import java.util.List;
 
 public class FieldMap extends Actor {
     public static final int CELL_SIZE = 80;
@@ -12,7 +15,7 @@ public class FieldMap extends Actor {
     private Texture textureWall;
     private Texture textureChest;
     private GameActor[][] data;
-    private String[][] placeEnemy;
+    private List<Enemy> enemies;
 
 
     public FieldMap() {
@@ -39,7 +42,11 @@ public class FieldMap extends Actor {
         return data;
     }
 
-    public String[][] getPlaceEnemy() {
-        return placeEnemy;
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
     }
 }

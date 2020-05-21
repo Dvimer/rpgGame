@@ -19,6 +19,7 @@ public class Player extends GameActor {
     private HpService hpService;
     private WalkService walkService;
     private List<String> bag;
+    private Enemy enemy;
 
     public Player(float x, float y, FieldMap fieldMap) {
         this.fieldMap = fieldMap;
@@ -44,6 +45,7 @@ public class Player extends GameActor {
         hpService.draw(batch, this);
         walkService.draw(batch, this);
         goWithMoveTimer();
+//        if(currentMonster!= null) drawHpCurrenMonster;
         checkChest();
         if (isMotion) {
             getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 1 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 1, 0);
@@ -60,9 +62,28 @@ public class Player extends GameActor {
             }
         }
     }
-    public void takeDamage(float amount) {
-        hp -= amount;
+
+    private void attack() {
+        for (Enemy enemy : fieldMap.getEnemies()) {
+            float dst = enemy.getPosition().dst(this.position);
+            if (dst < weapon.getDistance()) {
+                attackTimer += Gdx.graphics.getDeltaTime();
+                if (attackTimer >= weapon.getSpeedAttack()) {
+                    player.takeDamage(weapon.getAttack());
+                    attackTimer = 0.0f;
+                }
+            }
+        }
     }
+//    1 ищем монстра ближайшего
+//    2 если нашли, то запоминаем и бьем его, проверяя дистанцию, только до него
+//    3 если он убежал - ищем ближайшего
+//    4 есть возможность сменить на ближайшего (TAB)
+//    5 Тапнуть на монстра для выбора атаки, при условии дистанции
+//    6 сверху отобразить текущего монстра - его жизни
+//    7 после смерти ищем следующего
+//
+//
 
     public Rectangle getRectangle() {
         return rectangle;
