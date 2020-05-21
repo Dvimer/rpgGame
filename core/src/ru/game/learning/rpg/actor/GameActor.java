@@ -3,7 +3,6 @@ package ru.game.learning.rpg.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.game.learning.rpg.map.FieldDrop;
 import ru.game.learning.rpg.map.FieldMap;
 import ru.game.learning.rpg.map.FieldType;
 
@@ -23,7 +22,6 @@ public class GameActor extends Actor {
     protected int tempX;
     protected int tempY;
     protected FieldType fieldType;
-    protected FieldDrop fieldDrop;
 
 
     public void checkScreenBounds() {

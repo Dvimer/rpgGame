@@ -14,6 +14,7 @@ import ru.game.learning.rpg.actor.Tree;
 import ru.game.learning.rpg.inputadapter.PlayerInputAdapter;
 import ru.game.learning.rpg.map.FieldMap;
 import ru.game.learning.rpg.map.FieldType;
+import ru.game.learning.rpg.screen.MainScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,12 @@ public class GameStage extends Stage {
     private FieldMap fieldMap;
     private List<Chest> chests;
     private List<Tree> trees;
+    private Game game;
 
     public GameStage(Game game) {
         super(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
                 new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
+        this.game = game;
         setupCamera();
         setupGround();
         setupPlayer();
@@ -45,6 +48,7 @@ public class GameStage extends Stage {
         chests.add(chest);
         addActor(chest);
     }
+
     private void setupTree() {
         Tree tree = new Tree(fieldMap);
         trees = new ArrayList<>();
@@ -66,9 +70,9 @@ public class GameStage extends Stage {
 
     private void setupEnemy() {
         for (int i = 0; i < 100; i++) {
-            int tempX = MathUtils.random(1, 79);
+            int tempX = MathUtils.random(1, 50);
             int tempY = MathUtils.random(1, 44);
-            if(FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
+            if (FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
                 Enemy enemy = new Enemy(tempX, tempY, fieldMap, player);
                 enemies = new ArrayList<>();
                 enemies.add(enemy);
@@ -97,6 +101,9 @@ public class GameStage extends Stage {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (player.getHp() < 0) {
+            game.setScreen(new MainScreen(game));
+        }
     }
 
     @Override

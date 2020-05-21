@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import ru.game.learning.rpg.map.FieldDrop;
 import ru.game.learning.rpg.map.FieldMap;
-import ru.game.learning.rpg.map.FieldType;
 
 public class Chest extends GameActor {
     private TextureRegion textureRegion;
@@ -16,7 +14,6 @@ public class Chest extends GameActor {
 
 
     public Chest(FieldMap fieldMap) {
-        fieldDrop = FieldDrop.CHEST;
         this.fieldMap = fieldMap;
         int tempX = MathUtils.random(5, 10);
         int tempY = MathUtils.random(5, 10);

@@ -4,6 +4,6 @@ public enum FieldType {
     PLAYER,
     ENEMY,
     WALL,
-    GROUND;
-
+    GROUND,
+    CHEST
 }

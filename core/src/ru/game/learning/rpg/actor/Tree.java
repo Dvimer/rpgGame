@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import ru.game.learning.rpg.map.FieldDrop;
 import ru.game.learning.rpg.map.FieldMap;
-import ru.game.learning.rpg.map.FieldType;
 
 
 public class Tree extends GameActor {
@@ -16,7 +14,6 @@ public class Tree extends GameActor {
     private Rectangle textureRegionBounds;
 
     public Tree(FieldMap fieldMap) {
-        fieldDrop = FieldDrop.TREE;
         this.fieldMap = fieldMap;
         int tempX = MathUtils.random(5, 10);
         int tempY = MathUtils.random(5, 10);
