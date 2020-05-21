@@ -12,8 +12,8 @@ import java.util.List;
 public class SplitGenerator implements MapGenerator {
     public static List<Node> list = new ArrayList<>();
     private static GameActor[][] field;
-    public static final int WIGHT = 80;
-    public static final int HEIGHT = 80;
+    public static final int WIGHT = 50;
+    public static final int HEIGHT = 50;
     private static int offset;
     public static final int DEEP = 5;
     private Wall wall = new Wall();

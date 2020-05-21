@@ -13,7 +13,7 @@ public class GameActor extends Actor {
     protected Vector2 direction;
     protected float hp;
     protected float hpMax;
-    protected float attackTimer;
+    protected float attackTimer = 0.5f;
     public float moveTimer;
     public final static int FIELD_SIZE = CELL_SIZE;
     protected FieldMap fieldMap;
@@ -22,6 +22,7 @@ public class GameActor extends Actor {
     protected int tempX;
     protected int tempY;
     protected FieldType fieldType;
+    public boolean continueMovie;
 
 
     public void checkScreenBounds() {
@@ -51,15 +52,17 @@ public class GameActor extends Actor {
             }
         }
         if (isMotion) {
-            if (moveTimer < 1.0f) {
+            if (moveTimer < 0.5f) {
                 moveTimer += Gdx.graphics.getDeltaTime();
-                position.set(position).add(direction.x * Gdx.graphics.getDeltaTime() * 1, direction.y * Gdx.graphics.getDeltaTime() * 1);
+                position.set(position).add(direction.x * Gdx.graphics.getDeltaTime() * 2, direction.y * Gdx.graphics.getDeltaTime() * 2);
             } else {
                 position.set(tempX, tempY);
                 isMotion = false;
                 moveTimer = 0.0f;
-                direction.x = 0;
-                direction.y = 0;
+                if (!continueMovie) {
+                    direction.x = 0;
+                    direction.y = 0;
+                }
             }
         }
     }
@@ -85,6 +88,7 @@ public class GameActor extends Actor {
         hp -= amount;
     }
 
+
     public float getHp() {
         return hp;
     }
@@ -97,8 +101,7 @@ public class GameActor extends Actor {
         return fieldType;
     }
 
-    public void action(){
-
-
+    public void action() {
     }
+
 }

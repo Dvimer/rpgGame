@@ -19,10 +19,17 @@ public class Player extends GameActor {
     private HpService hpService;
     private WalkService walkService;
     private List<String> bag;
-    private Enemy enemy;
+    private Weapon weapon;
+    private Texture textureDead;
+    private Enemy targetEnemy;
+    private float minDst = 5.0f;
+    private int i;
 
     public Player(float x, float y, FieldMap fieldMap) {
+        textureDead = new Texture("dead.png");
         this.fieldMap = fieldMap;
+        weapon = new Weapon("Sword", "near", 1.5f, 7, 0.3f);
+
         bag = new ArrayList<>();
         fieldType = FieldType.PLAYER;
         fieldMap.getData()[(int) x][(int) y] = this;
@@ -34,7 +41,6 @@ public class Player extends GameActor {
         moveTimer = 0.0f;
         hpService = new HpService();
         walkService = new PlayerWalkService();
-
     }
 
     @Override
@@ -45,10 +51,12 @@ public class Player extends GameActor {
         hpService.draw(batch, this);
         walkService.draw(batch, this);
         goWithMoveTimer();
-//        if(currentMonster!= null) drawHpCurrenMonster;
         checkChest();
+        if (targetEnemy == null) {
+            selectEnemy();
+        }
         if (isMotion) {
-            getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 1 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 1, 0);
+            getStage().getCamera().translate(direction.x * Gdx.graphics.getDeltaTime() * 2 * FIELD_SIZE, direction.y * Gdx.graphics.getDeltaTime() * FIELD_SIZE * 2, 0);
         }
     }
 
@@ -62,21 +70,41 @@ public class Player extends GameActor {
             }
         }
     }
-
-    private void attack() {
+//todo косяк в том что он его запомнил и бьет даже если мы убежали
+    private void selectEnemy() {
+        float dst;
+        float tempDst = weapon.getDistance();
         for (Enemy enemy : fieldMap.getEnemies()) {
-            float dst = enemy.getPosition().dst(this.position);
+            dst = enemy.getPosition().dst(this.position);
             if (dst < weapon.getDistance()) {
-                attackTimer += Gdx.graphics.getDeltaTime();
-                if (attackTimer >= weapon.getSpeedAttack()) {
-                    player.takeDamage(weapon.getAttack());
-                    attackTimer = 0.0f;
+                if (tempDst > dst) {
+                    tempDst = dst;
+                    targetEnemy = enemy;
                 }
             }
         }
     }
-//    1 ищем монстра ближайшего
-//    2 если нашли, то запоминаем и бьем его, проверяя дистанцию, только до него
+
+    private void hit(Enemy enemy) {
+        attackTimer -= Gdx.graphics.getDeltaTime();
+        if (attackTimer < 0) {
+            enemy.takeDamage(weapon.getAttack());
+            attackTimer = weapon.getSpeedAttack();
+        }
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (targetEnemy != null && targetEnemy.hp > 0) {
+            hit(targetEnemy);
+        } else {
+            targetEnemy = null;
+        }
+    }
+
+    //    1 ищем монстра ближайшего +
+//    2 если нашли, то запоминаем и бьем его, проверяя дистанцию, только до него +
 //    3 если он убежал - ищем ближайшего
 //    4 есть возможность сменить на ближайшего (TAB)
 //    5 Тапнуть на монстра для выбора атаки, при условии дистанции

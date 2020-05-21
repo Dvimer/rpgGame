@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import ru.game.learning.rpg.actor.Chest;
-import ru.game.learning.rpg.actor.Enemy;
-import ru.game.learning.rpg.actor.Player;
-import ru.game.learning.rpg.actor.Tree;
+import ru.game.learning.rpg.actor.*;
 import ru.game.learning.rpg.inputadapter.PlayerInputAdapter;
 import ru.game.learning.rpg.map.FieldMap;
 import ru.game.learning.rpg.map.FieldType;
@@ -65,31 +62,21 @@ public class GameStage extends Stage {
         player = new Player(5, 5, fieldMap);
         addActor(player);
         Gdx.input.setInputProcessor(new PlayerInputAdapter(player));
-
     }
 
     private void setupEnemy() {
-        for (int i = 0; i < 100; i++) {
-            int tempX = MathUtils.random(1, 50);
-            int tempY = MathUtils.random(1, 44);
+        enemies = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            int tempX = MathUtils.random(1, 5);
+            int tempY = MathUtils.random(1, 4);
             if (FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
                 Enemy enemy = new Enemy(tempX, tempY, fieldMap, player);
-                enemies = new ArrayList<>();
                 enemies.add(enemy);
                 addActor(enemy);
             }
         }
         fieldMap.setEnemies(enemies);
 
-//        for (int i = 0; i < 10; i++) {
-//            int tempX = MathUtils.random(1, 10);
-//            int tempY = MathUtils.random(1, 10);
-//            if (FieldType.GROUND == fieldMap.getData()[tempX][tempY].getFieldType()) {
-//                enemy = new Enemy(tempX, tempY, fieldMap, player);
-//                addActor(enemy);
-//            } else
-//                i--;
-//        }
 
     }
 
@@ -102,7 +89,7 @@ public class GameStage extends Stage {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (player.getHp() < 0) {
+        if (player.getHp() <= 0) {
             game.setScreen(new MainScreen(game));
         }
     }

@@ -31,12 +31,12 @@ public class Enemy extends GameActor {
         this.player = player;
         this.hpMax = 50.0f;
         this.hp = hpMax;
-        this.weapon = new Weapon("Claws", "near", 2, 5, 3.0f);
+        this.weapon = new Weapon("Claws", "near", 1, 5, 0.5f);
         position = new Vector2(x, y);
         rectangle = new Rectangle(x, y, FIELD_SIZE, FIELD_SIZE);
         direction = new Vector2(0, 0);
         secondPerFrame = 0.3f;
-        activityZone = 3.0f;
+        activityZone = 5.0f;
         dt = Gdx.graphics.getDeltaTime();
         hpService = new HpService();
         walkService = new EnemyWalkService();
@@ -54,7 +54,7 @@ public class Enemy extends GameActor {
     }
 
     public void walkEnemy() {
-//        changeDirection();
+        changeDirection();
         goWithMoveTimer();
     }
 
@@ -63,11 +63,11 @@ public class Enemy extends GameActor {
         walkTimer -= Gdx.graphics.getDeltaTime();
         if (dst < activityZone) {
             if (walkTimer < 0.0f) {
-                walkTimer = MathUtils.random(1.0f, 3.0f);
+                walkTimer = MathUtils.random(1.0f, 2.0f);
                 goToPlayer();
             }
         } else if (walkTimer < 0.0f) {
-            walkTimer = MathUtils.random(1.0f, 1.0f);
+            walkTimer = MathUtils.random(1.0f, 5.0f);
             goToRandomVector(MathUtils.random(-1.0f, 1.0f), 0, 0);
         }
         direction.nor();
@@ -88,12 +88,25 @@ public class Enemy extends GameActor {
 
     public void attack() {
         float dst = player.getPosition().dst(this.position);
-        if (dst < weapon.getDistance()) {
-            attackTimer += Gdx.graphics.getDeltaTime();
-            if (attackTimer >= weapon.getSpeedAttack()) {
-                player.takeDamage(weapon.getAttack());
-                attackTimer = 0.0f;
-            }
+        if (dst <= weapon.getDistance()) {
+            hit(player);
+        }
+    }
+
+    private void hit(Player player) {
+        attackTimer -= Gdx.graphics.getDeltaTime();
+        if (attackTimer < 0) {
+            player.takeDamage(weapon.getAttack());
+            attackTimer = weapon.getSpeedAttack();
+        }
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(hp <= 0 ){
+            fieldMap.getData()[(int) position.x][(int) position.y] = new Ground();
+            remove();
         }
     }
 
